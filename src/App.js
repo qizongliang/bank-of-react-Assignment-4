@@ -45,10 +45,23 @@ class App extends Component {
       }
     }
 
+    try{
+      let response = await axios.get('https://moj-api.herokuapp.com/debits');
+      console.log(response); 
+      this.setState({debits: response.data});
+      for(let debit of this.state.debits){
+        this.state.accountBalance -= debit.amount;
+      }
+    }catch(error){
+      if (error.response) {
+        console.log(error.response.status); 
+      }
+    }
+
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
-  mockLogIn = (logInInfo) => {  
+  mockLogIn = (logInInfo) => {
     const newUser = {...this.state.currentUser}
     newUser.userName = logInInfo.userName
     this.setState({currentUser: newUser})
