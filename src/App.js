@@ -57,6 +57,7 @@ class App extends Component {
         console.log(error.response.status); 
       }
     }
+    this.state.accountBalance = Math.round(this.state.accountBalance * 100) / 100;
 
   }
 
@@ -65,6 +66,21 @@ class App extends Component {
     const newUser = {...this.state.currentUser}
     newUser.userName = logInInfo.userName
     this.setState({currentUser: newUser})
+  }
+  addDebit = (debit) =>{
+    let temp = {};
+    temp.id = debit.id;
+    temp.description = debit.description;
+    temp.amount = Math.round(debit.accountBalance * 100) / 100;
+    temp.date = debit.date;
+
+
+
+    this.state.debits.push(temp);
+
+    let newBalance = Number(this.state.accountBalance) - Number(debit.amount);
+    this.setState({accountBalance: newBalance.toFixed(2)});
+
   }
 
   // Create Routes and React elements to be rendered using React components
@@ -75,8 +91,8 @@ class App extends Component {
       <UserProfile userName={this.state.currentUser.userName} memberSince={this.state.currentUser.memberSince} />
     );
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
-    const DebitsComponent = () => (<Debits debits={this.state.debits} />)
-    const CreditsComponent = () => (<Credits credits={this.state.credits} />)
+    const DebitsComponent = () => (<Debits debits={this.state.debits} accountBalance={this.state.accountBalance}/>)
+    const CreditsComponent = () => (<Credits credits={this.state.credits} accountBalance={this.state.accountBalance}/>)
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
