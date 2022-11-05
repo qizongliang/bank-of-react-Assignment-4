@@ -64,6 +64,23 @@ class App extends Component {
     this.setState({accountBalance:Math.round(balance * 100) / 100});
 
   }
+
+  addCredit = (credit) => {
+    let temp = {}; // generate a temp object
+    temp.id = credit.id;
+    temp.description = credit.description;
+    temp.amount = Math.round(credit.amount* 100)/100;
+    temp.date = credit.date;
+
+    let currentCredits = this.state.credits; // create a new list so that it can be used to replace the old list
+    currentCredits.push(temp);
+    this.setState({credit: currentCredits});
+    // Update the account balance
+    let newBalance = Number(this.state.accountBalance) + Number(credit.amount); // create new balance
+
+    this.setState({accountBalance: Math.round(newBalance * 100) / 100}); // set the new balance to the current balance
+  }
+
   addDebit = (Debit) => {
     let temp = {}; // generate a temp object
     temp.id = Debit.id;
@@ -72,7 +89,7 @@ class App extends Component {
     temp.date = Debit.date;
 
     let currentDebits = this.state.debits; // create a new list so that it can be used to replace the old list
-    currentDebits.push(Debit);
+    currentDebits.push(temp);
     this.setState({debits: currentDebits});
     // Update the account balance
     let newBalance = Number(this.state.accountBalance) - Number(Debit.amount); // create new balance
@@ -96,7 +113,7 @@ class App extends Component {
     );
     const LogInComponent = () => (<LogIn user={this.state.currentUser} mockLogIn={this.mockLogIn} />)
     const DebitsComponent = () => (<Debits debits={this.state.debits} accountBalance={this.state.accountBalance} addDebit = {this.addDebit}/> )
-    const CreditsComponent = () => (<Credits credits={this.state.credits} accountBalance={this.state.accountBalance} addDebit = {this.state.addDebit}/>)
+    const CreditsComponent = () => (<Credits credits={this.state.credits} accountBalance={this.state.accountBalance} addCredit = {this.addCredit}/>)
 
     // Important: Include the "basename" in Router, which is needed for deploying the React app to GitHub Pages
     return (
