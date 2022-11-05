@@ -65,19 +65,19 @@ class App extends Component {
 
   }
   addDebit = (Debit) => {
-    let temp = {};
+    let temp = {}; // generate a temp object
     temp.id = Debit.id;
     temp.description = Debit.description;
     temp.amount = Math.round(Debit.amount* 100)/100;
     temp.date = Debit.date;
 
-    let currentDebits = this.state.debits;
+    let currentDebits = this.state.debits; // create a new list so that it can be used to replace the old list
     currentDebits.push(Debit);
     this.setState({debits: currentDebits});
     // Update the account balance
-    let newBalance = Number(this.state.accountBalance) - Number(Debit.amount);
+    let newBalance = Number(this.state.accountBalance) - Number(Debit.amount); // create new balance
 
-    this.setState({accountBalance: Math.round(newBalance * 100) / 100});
+    this.setState({accountBalance: Math.round(newBalance * 100) / 100}); // set the new balance to the current balance
   }
 
   // Update state's currentUser (userName) after "Log In" button is clicked
