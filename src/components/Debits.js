@@ -20,16 +20,40 @@ const Debits = (props) => {
   }
 
   const handleSubmit = (event) =>{
-    let todayDate = new Date().toISOString();
+    
     event.preventDefault();
-    let Debit = {
-      amount: event.target.amount.value,
-      date: todayDate,
-      description: event.target.description.value,
-      id: todayDate
+    let date = new Date().toISOString();
+    let tempid = ''; // temporary id holder
+    let source = 'qwertyuiopasdfghjklzxcvbnm1234567890'; // create a source string
+    for (let i = 0; i < 8; i++) {
+      tempid += source[Math.floor(Math.random() * (source.length) )];
     }
-    props.addDebit(Debit);
-    event.target.reset();
+    tempid += '-';
+    for (let i = 0; i < 4; i++) {
+      tempid += source[Math.floor(Math.random() * (source.length) )];
+    }
+    tempid += '-';
+    for (let i = 0; i < 4; i++) {
+      tempid += source[Math.floor(Math.random() * (source.length) )];
+    }
+    tempid += '-';
+    for (let i = 0; i < 4; i++) {
+      tempid += source[Math.floor(Math.random() * (source.length) )];
+    }
+    tempid += '-';
+    for (let i = 0; i < 12; i++) {
+      tempid += source[Math.floor(Math.random() * (source.length) )];
+    } //Generate random id
+
+    let Debit = { //create new json object
+      amount: event.target.amount.value,
+      date: date,
+      description: event.target.description.value,
+      id: tempid
+    }
+    
+    props.addDebit(Debit); // add the debit object to the list
+    event.target.reset(); // reset the input form
   }
 
   // Render the list of Debit items and a form to input new Debit item
